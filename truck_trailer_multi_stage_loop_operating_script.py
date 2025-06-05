@@ -60,28 +60,29 @@ def run_DSL_operation():
     validation_trace_function = validate_trace_datasets_function, general_validation_trace_parameters = False, expert_policy_function = use_case.expert_output_function)
     
 
-    #EDIT 04 JUNE - START
+    #EDIT 05 JUNE - START
     #Dagger(train_NN, simulate_system_traces, validate_datasets, validate_trace_datasets, expert_policy, 'truck_trailer_multi_stage_loop_index_dataset.csv', 'truck_trailer_multi_stage_loop_index_start_points.csv', 'truck_trailer_multi_stage_loop_index_traces.csv', 10, 49, 0, output_map)
-    seeds_to_try = [21, 37]  # For now, just try two seeds
-    for seed in seeds_to_try:
-        print(f"\n=== Running DAgger with seed {seed} ===\n")
-        tf.random.set_seed(seed)
-        np.random.seed(seed)
-        random.seed(seed)
+    if len(sys.argv) < 2:
+        raise ValueError("Please provide a seed as a command-line argument.")
+    seed = int(sys.argv[1])
+    print(f"\n=== Running DAgger with seed {seed} ===\n")
+    tf.random.set_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
 
-        # Make output folder unique per seed
-        output_map_seed = output_map + f"_seed{seed}"
+    # Make output folder unique per seed
+    output_map_seed = output_map + f"_seed{seed}"
 
-        Dagger(train_NN,
-           simulate_system_traces,
-           validate_datasets,
-           validate_trace_datasets,
-           expert_policy,
-           'truck_trailer_multi_stage_loop_index_dataset.csv',
-           'truck_trailer_multi_stage_loop_index_start_points.csv',
-           'truck_trailer_multi_stage_loop_index_traces.csv',
-           10, 49, 0, output_map_seed)
-    #EDIT 04 JUNE - END
+    Dagger(train_NN,
+       simulate_system_traces,
+       validate_datasets,
+       validate_trace_datasets,
+       expert_policy,
+       'truck_trailer_multi_stage_loop_index_dataset.csv',
+       'truck_trailer_multi_stage_loop_index_start_points.csv',
+       'truck_trailer_multi_stage_loop_index_traces.csv',
+       10, 49, 0, output_map_seed)
+    #EDIT 05 JUNE - END
     #NDI(train_NN, simulate_system, validate_datasets, validate_trace_datasets, expert_policy, 'MPC_data\data_set_mpc_example_DSL', 'MPC_data\data_set_mpc_example_start_points_DSL', 'MPC_data\data_set_mpc_example_perfect_paths', 20, 3, 100, 0.1, output_map)
     #CL(train_NN, retrain_NN, 'MPC_data\data_set_mpc_example_DSL', output_map)
 
