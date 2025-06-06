@@ -13,7 +13,7 @@ from imp_validate_trace_datasets import validate_trace_datasets_function, Valida
 from DSL_general_methods import Dagger, NDI, CL, Simple_train
 from Use_Case_class import Use_Case
 from imp_truck_trailer_multi_stage_loop_DSL import Truck_Trailer_Multi_Stage_Loop_Use_case, standalone_simulate_function, standalone_simulate_function_nudge, initialize_ocp, General_Simulation_parameters
-from paper_scripts.random_tree import Train_Random_Tree_Policy, General_Train_Random_Tree_Policy_Parameters
+#from paper_scripts.random_tree import Train_Random_Tree_Policy, General_Train_Random_Tree_Policy_Parameters
 
 from DSL_data_classes import DSL_Data_Point, DSL_Data_Set, DSL_Trace_Data_Set
 from DSL_policy_case import Policy
@@ -49,7 +49,7 @@ def run_DSL_operation():
     general_train_nn_policy_parameters = General_Train_NN_Policy_parameters(do_hypertuning=True, hypertuning_epochs=50, hypertuning_factor=3,
                                                             project_name='hyper_trials', NN_training_epochs=100, hyperparameter_file="hyperparameterfile", use_case=use_case)
     
-    general_train_random_tree_policy_parameters = General_Train_Random_Tree_Policy_Parameters(n_estimators=100)
+    #general_train_random_tree_policy_parameters = General_Train_Random_Tree_Policy_Parameters(n_estimators=100)
     
     general_retrain_nn_policy_parameters = General_Retrain_NN_Policy_parameters(NN_training_epochs=4, use_case=use_case)
     
