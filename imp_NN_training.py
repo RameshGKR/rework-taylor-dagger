@@ -227,18 +227,29 @@ def plot_loss(history: keras.callbacks.History, map_name: str):
     plt.ylabel('Error  [U1,U2]')
     plt.legend()
     plt.grid(True)
-    plt.savefig(map_name + '\Figure_loss_and_val_loss_')
+    fig_path = str(os.path.join(map_name, 'Figure_loss_and_val_loss_'))
+    plt.savefig(fig_path)
+    # plt.savefig(map_name + '\Figure_loss_and_val_loss_')
     plt.clf()
 
 def save_model(use_case: Use_Case, dnn_model: tf.keras.Sequential, map_name: str):
     """This function saves the model, the weights and saves it as a yaml."""
-    dnn_model.save(map_name+'\dnn_model')
-    dnn_model.save_weights(map_name+'\dnn_model' + 'weigths.h5')
-    h5_to_yml([map_name+'\dnn_model', map_name + '\dnn_model' +'_yaml'], use_case.custom_objects)
+    dnn_model.save(str(os.path.join(map_name, 'dnn_model')))
+    # dnn_model.save(map_name+'\dnn_model')
+
+    dnn_model.save_weights(str(os.path.join(map_name, 'dnn_model' + 'weigths.h5')))
+    # dnn_model.save_weights(map_name+'\dnn_model' + 'weigths.h5')
+
+    h5_to_yml([
+        str(os.path.join(map_name, 'dnn_model')),
+        str(os.path.join(map_name , 'dnn_model' +'_yaml'))
+    ], use_case.custom_objects)
+    # h5_to_yml([map_name+'\dnn_model', map_name + '\dnn_model' +'_yaml'], use_case.custom_objects)
 
 def write_output_file(dnn_model: tf.keras.Sequential, output_map_name, General_Train_NN_Policy_parameters, hyper_parameters: List, hyperparameters_labels: List[str]):
     """This function saves the parameters of NN training and the test results"""
-    outputfile= open(output_map_name + '\\' + '_outputfile.txt', "a")
+    outputfile= open(str(os.path.join(output_map_name, '_outputfile.txt')), "a")
+    # outputfile= open(output_map_name + '\\' + '_outputfile.txt', "a")
     for idx, hyperparameter_label in enumerate(hyperparameters_labels):
         outputfile.write(f"{hyperparameter_label}: {hyper_parameters[idx]}\n")
     outputfile.write(f"The amount of trained epochs are: {General_Train_NN_Policy_parameters.NN_training_epochs}\n")
@@ -304,7 +315,8 @@ if __name__ == "__main__":
   Trained_epochs = 400
 
   name = 'V_mp_27_' + str(Trained_epochs) + '_epochs'
-  map_name = 'dnns_motion_planning_example' + '\\' + name
+  map_name = str(os.path.join('dnns_motion_planning_example', name))
+  # map_name = 'dnns_motion_planning_example' + '\\' + name
 
   os.makedirs(map_name)
 
