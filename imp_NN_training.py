@@ -162,7 +162,10 @@ def Train_NN_Truck_Trailer_Multi_Stage_Loop_Policy(input_dataset, General_Train_
         Hypertune_NN(hyper_model, use_case, train_dataset, General_Train_NN_Policy_parameters, Train_NN_Policy_parameters)
     
     if General_Train_NN_Policy_parameters.do_hypertuning:
-        hyper_parameters = get_hyperparameters_from_file(Train_NN_Policy_parameters.output_map + '\output_NN_hypertuning\\'+ General_Train_NN_Policy_parameters.hyperparameter_file)
+        # hyper_parameters = get_hyperparameters_from_file(Train_NN_Policy_parameters.output_map + '\output_NN_hypertuning\\'+ General_Train_NN_Policy_parameters.hyperparameter_file)
+        hyper_parameters = get_hyperparameters_from_file(
+            str(os.path.join(Train_NN_Policy_parameters.output_map, 'output_NN_hypertuning', General_Train_NN_Policy_parameters.hyperparameter_file))
+        )
     else:
         hyper_parameters = get_hyperparameters_from_file(General_Train_NN_Policy_parameters.hyperparameter_file)
         
@@ -175,15 +178,18 @@ def Train_NN_Truck_Trailer_Multi_Stage_Loop_Policy(input_dataset, General_Train_
     return policy
 
 def Hypertune_NN(hyper_model, use_case, train_dataset, General_Train_NN_Policy_parameters, Train_NN_Policy_parameters):
-    output_map_name = Train_NN_Policy_parameters.output_map + '\output_NN_hypertuning\\'+ General_Train_NN_Policy_parameters.hyperparameter_file
-    os.makedirs(Train_NN_Policy_parameters.output_map + '\output_NN_hypertuning\\')
+    output_map_name = str(os.path.join(Train_NN_Policy_parameters.output_map, "output_NN_hypertuning", General_Train_NN_Policy_parameters.hyperparameter_file))
+    # output_map_name = Train_NN_Policy_parameters.output_map + '\output_NN_hypertuning\\'+ General_Train_NN_Policy_parameters.hyperparameter_file
+    os.makedirs(str(os.path.join(Train_NN_Policy_parameters.output_map, "output_NN_hypertuning")))
+    # os.makedirs(Train_NN_Policy_parameters.output_map + '\output_NN_hypertuning\\')
     best_hps = hypertune(hyper_model, train_dataset, General_Train_NN_Policy_parameters, Train_NN_Policy_parameters)
    
     save_hyperparametersearch_results(best_hps, General_Train_NN_Policy_parameters, Train_NN_Policy_parameters, use_case.hyperparameters)
     save_hyperparameters_to_file(use_case, best_hps, output_map_name)
 
 def save_training_results(use_case, model, history, hyper_parameters, General_Train_NN_Policy_parameters, Train_NN_Policy_parameters, output_map_label):
-    output_map_name = Train_NN_Policy_parameters.output_map + '\output_NN_'+ output_map_label
+    output_map_name = str(os.path.join(Train_NN_Policy_parameters.output_map, 'output_NN_'+ output_map_label))
+    # output_map_name = Train_NN_Policy_parameters.output_map + '\output_NN_'+ output_map_label
     os.makedirs(output_map_name)
 
     plot_loss(history, output_map_name)

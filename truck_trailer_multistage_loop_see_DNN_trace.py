@@ -26,6 +26,7 @@ Motion planning
 
 Simple motion planning for vehicle with trailer
 """
+import os
 
 from rockit import *
 import matplotlib.pyplot as plt
@@ -373,9 +374,14 @@ Nsim = N_1+N_2+N_3
 # datafile = "DSL_truck_trailer_multi_stage_loop_relu_run_1\DSL_truck_trailer_multi_stage_loop_relu_run_1\iteration_1\dataset.csv" #use dataset used to train NN so it is one iteration less
 # modelweights = "DSL_truck_trailer_multi_stage_loop_relu_run_1\DSL_truck_trailer_multi_stage_loop_relu_run_1\iteration_2\output_NN_training\dnn_modelweigths.h5"
 
-hyperparameterfile = "DSL_truck_trailer_multi_stage_model_loop_0p5_prune01_slow0_run_relu_correct\iteration_9\output_NN_hypertuning\hyperparameterfile"
-datafile = "DSL_truck_trailer_multi_stage_model_loop_0p5_prune01_slow0_run_relu_correct\iteration_8\dataset.csv"
-modelweights = "DSL_truck_trailer_multi_stage_model_loop_0p5_prune01_slow0_run_relu_correct\iteration_9\output_NN_training\dnn_modelweigths.h5"
+hyperparameterfile = str(os.path.join("DSL_truck_trailer_multi_stage_model_loop_0p5_prune01_slow0_run_relu_correct", "iteration_9", "output_NN_hypertuning", "hyperparameterfile"))
+# hyperparameterfile = "DSL_truck_trailer_multi_stage_model_loop_0p5_prune01_slow0_run_relu_correct\iteration_9\output_NN_hypertuning\hyperparameterfile"
+
+datafile = str(os.path.join("DSL_truck_trailer_multi_stage_model_loop_0p5_prune01_slow0_run_relu_correct", "iteration_8", "dataset.csv"))
+# datafile = "DSL_truck_trailer_multi_stage_model_loop_0p5_prune01_slow0_run_relu_correct\iteration_8\dataset.csv"
+
+modelweights = str(os.path.join("DSL_truck_trailer_multi_stage_model_loop_0p5_prune01_slow0_run_relu_correct", "iteration_9", "output_NN_training", "dnn_modelweigths.h5"))
+# modelweights = "DSL_truck_trailer_multi_stage_model_loop_0p5_prune01_slow0_run_relu_correct\iteration_9\output_NN_training\dnn_modelweigths.h5"
 
 use_case = Truck_Trailer_Multi_Stage_Loop_Use_case()
 use_case.set_self_parameters()
