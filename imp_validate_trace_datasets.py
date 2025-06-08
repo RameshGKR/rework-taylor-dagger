@@ -36,13 +36,17 @@ def get_MSE(expert_trace_dataset, NN_trace_dataset):
 
 def save_MSE(MSE_result_lists: List[List[float]], labels_input: List[str], output_map: str):
     """Saves the MSE results and plot figures and also saves these"""
-    with open(output_map+'\MSE_results.csv', "a+") as output:
+    output_path = str(os.path.join(output_map, "MSE_results.csv"))
+    with open(output_path, "a+") as output:
+    # with open(output_map+'\MSE_results.csv', "a+") as output:
         writer = csv.writer(output, lineterminator='\n')
         for idx, MSE_result_list in enumerate(MSE_result_lists):
             writer.writerow(MSE_result_list)
             _ = plt.subplot()
             plt.plot(MSE_result_list)
-            plt.savefig(output_map+'\\'+labels_input[idx]+'_MSE_fig')
+            fig_path = str(os.path.join(output_map, labels_input[idx]+'_MSE_fig'))
+            plt.savefig(fig_path)
+            # plt.savefig(output_map+'\\'+labels_input[idx]+'_MSE_fig')
             plt.clf()
 
 def get_total_MSE_results(use_case: Use_Case, polish_iterations: int, map_name: str):
@@ -50,8 +54,8 @@ def get_total_MSE_results(use_case: Use_Case, polish_iterations: int, map_name: 
     MSE_total_results = give_list_list(len(use_case.labels_input))
 
     for polish_it in range(polish_iterations):
-        current_map_name = map_name + '\iteration_' + str(polish_it)
-        current_map_name=current_map_name+'\MSE_results\MSE_results.csv'
+        current_map_name = str(os.path.join(map_name, 'iteration_' + str(polish_it), "MSE_results", "MSE_results.csv"))
+        # current_map_name = map_name + '\iteration_' + str(polish_it)+'\MSE_results\MSE_results.csv'
         with open(current_map_name) as file_name:
             MSE_results = np.loadtxt(file_name, delimiter=",")
 
@@ -62,7 +66,9 @@ def get_total_MSE_results(use_case: Use_Case, polish_iterations: int, map_name: 
 
 def save_total_MSE_results(use_case: Use_Case, map_name: str, MSE_total_results: List[List[float]]):
     """This function saves the total MSE results"""
-    with open(map_name+'\MSE_total_results.csv', "a+") as output:
+    file_path = str(os.path.join(map_name, "MSE_total_results.csv"))
+    with open(file_path, "a+") as output:
+    # with open(map_name+'\MSE_total_results.csv', "a+") as output:
         writer = csv.writer(output, lineterminator='\n')
         for idx in range(len(use_case.labels_input)):
             writer.writerow(MSE_total_results[idx])

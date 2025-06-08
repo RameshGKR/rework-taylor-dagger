@@ -40,7 +40,8 @@ def Dagger(train_NN, simulate_system_traces, validate_datasets, validate_trace_d
 
     for idx in range(Dagger_loops):
         # idx = idx+12
-        iteration_output_map = output_map+"\iteration_"+str(idx+1)
+        iteration_output_map = str(os.path.join(output_map, "iteration_"+str(idx+1)))
+        # iteration_output_map = output_map+"\iteration_"+str(idx+1)
         os.makedirs(iteration_output_map)
 
         train_NN_policy_parameters = Train_NN_Policy_parameters(output_map=iteration_output_map)
@@ -64,15 +65,17 @@ def Dagger(train_NN, simulate_system_traces, validate_datasets, validate_trace_d
         trace_dataset = simulate_system_traces.simulate_system_traces(trained_policy, start_point_dataset.input, trace_length)
         print_dataset = DSL_Data_Set()
         print_dataset.append_trace_dataset(trace_dataset)
-        print_dataset.write_dataset_to_csv(iteration_output_map+"\\all_traces_dataset.csv")
-        
+        print_dataset.write_dataset_to_csv(str(os.path.join(iteration_output_map, "all_traces_dataset.csv")))
+        # print_dataset.write_dataset_to_csv(iteration_output_map+"\\all_traces_dataset.csv")
+
         # Commented to have plots without pruning for ts=0.5
         #trace_dataset = compare_traces(trace_dataset, expert_trace_dataset, 0.1)
 
         print_dataset = DSL_Data_Set()
         print_dataset.append_trace_dataset(trace_dataset)
-        print_dataset.write_dataset_to_csv(iteration_output_map+"\\pruned_traces_dataset.csv")
-       
+        print_dataset.write_dataset_to_csv(str(os.path.join(iteration_output_map, "pruned_traces_dataset.csv")))
+        # print_dataset.write_dataset_to_csv(iteration_output_map+"\\pruned_traces_dataset.csv")
+
         #validate_trace_datasets.validate_trace_datasets(expert_trace_dataset, trace_dataset, validation_trace_parameters)
 
         loop_dataset = DSL_Data_Set()
@@ -81,7 +84,8 @@ def Dagger(train_NN, simulate_system_traces, validate_datasets, validate_trace_d
         loop_dataset.remove_errors()
 
         total_dataset.append_dataset(loop_dataset)
-        total_dataset.write_dataset_to_csv(iteration_output_map+"\dataset.csv")
+        total_dataset.write_dataset_to_csv(str(os.path.join(iteration_output_map, "dataset.csv")))
+        # total_dataset.write_dataset_to_csv(iteration_output_map+"\dataset.csv")
 
 def compare_traces(NN_trace_dataset, expert_trace_dataset, limit):
     for dataset_index in range(len(expert_trace_dataset.datasets)):
@@ -112,7 +116,8 @@ def NDI(train_NN, simulate_system, validate_datasets, validate_trace_datasets, e
     first_policy_dataset = DSL_Data_Set()
     first_policy_dataset.initialize_from_csv(start_point_dataset_csv)
 
-    iteration_output_map = output_map+"\iteration_"+str(0)
+    # iteration_output_map = output_map+"\iteration_"+str(0)
+    iteration_output_map = str(os.path.join(output_map, "iteration_"+str(0)))
     train_NN_policy_parameters = Train_NN_Policy_parameters(output_map=iteration_output_map)
     policy = train_NN.train_policy(first_policy_dataset, train_NN_policy_parameters)
 
@@ -120,7 +125,9 @@ def NDI(train_NN, simulate_system, validate_datasets, validate_trace_datasets, e
     policy_array =[policy]
 
     for i in range(max_iteration):
-        iteration_output_map = output_map+"\iteration_"+str(i+1)
+        iteration_output_map = str(os.path.join(output_map, "iteration_"+str(i+1)))
+        # iteration_output_map = output_map+"\iteration_"+str(i+1)
+
         train_NN_policy_parameters = Train_NN_Policy_parameters(output_map=iteration_output_map)
 
         total_traces = get_start_points(start_point_dataset, number_of_paths, expert_policy, total_traces)
@@ -198,8 +205,9 @@ def CL(train_NN, retrain_NN, start_dataset_csv, output_map):
     training_dataset = DSL_Data_Set()
 
     for idx, dataset in enumerate(dataset_list):
-        iteration_output_map = output_map+"\iteration_"+str(idx+1)
-        
+        iteration_output_map = str(os.path.join(output_map, "iteration_"+str(idx+1)))
+        # iteration_output_map = output_map+"\iteration_"+str(idx+1)
+
         training_dataset.append_dataset(dataset)
         [train_dataset, test_dataset] = training_dataset.split_dataset([0.8, 0.2])
         
@@ -207,7 +215,12 @@ def CL(train_NN, retrain_NN, start_dataset_csv, output_map):
             train_NN_policy_parameters = Train_NN_Policy_parameters(output_map=iteration_output_map)
             policy = train_NN.train_policy(train_dataset, train_NN_policy_parameters)
         else:
-            retrain_NN_Policy_parameters = Retrain_NN_Policy_parameters(hyperparameter_file=output_map+'\iteration_1\output_NN_hypertuning\hyperparameterfile', saved_weights=output_map+"\iteration_"+str(idx)+'\output_NN_training\dnn_modelweigths.h5', output_map=iteration_output_map)
+            hyper_param_file = str(os.path.join(output_map, 'iteration_1', 'output_NN_hypertuning', 'hyperparameterfile'))
+            saved_weights_file = str(os.path.join(output_map, "iteration_"+str(idx), 'output_NN_training', 'dnn_modelweigths.h5'))
+            retrain_NN_Policy_parameters = Retrain_NN_Policy_parameters(hyperparameter_file=hyper_param_file,
+                                                                        saved_weights=saved_weights_file,
+                                                                        output_map=iteration_output_map)
+            # retrain_NN_Policy_parameters = Retrain_NN_Policy_parameters(hyperparameter_file=output_map+'\iteration_1\output_NN_hypertuning\hyperparameterfile', saved_weights=output_map+"\iteration_"+str(idx)+'\output_NN_training\dnn_modelweigths.h5', output_map=iteration_output_map)
             policy = retrain_NN.train_policy(train_dataset, retrain_NN_Policy_parameters)
 
 def sort_train_dataset(total_dataset, amount_of_datasets):

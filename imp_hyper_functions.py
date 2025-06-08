@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import tensorflow as tf
 import keras_tuner as kt
@@ -22,7 +24,9 @@ def hypertune(hyper_model, train_dataset, General_Train_NN_Policy_parameters, Tr
 
 def save_hyperparametersearch_results(best_hps: kt.engine.hyperparameters.HyperParameter, General_Train_NN_Policy_parameters, Train_NN_Policy_parameters, hyperparameters: List[str]):
     """This functions saves the best hyperparameters and the settings of the hyperparametertuning"""
-    outputfile= open(Train_NN_Policy_parameters.output_map + '\hyper_outputfile.txt', "a")
+    output_path = str(os.path.join(Train_NN_Policy_parameters.output_map, 'hyper_outputfile.txt'))
+    outputfile= open(output_path, "a")
+    # outputfile= open(Train_NN_Policy_parameters.output_map + '\hyper_outputfile.txt', "a")
 
     for idx in range(len(best_hps.space)):
         outputfile.write(f"{best_hps.space[idx]}\n")

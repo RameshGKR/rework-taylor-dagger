@@ -24,9 +24,14 @@ for i in range(1,13):
 	iter_folder_path = os.path.join(main_folder, iter_folder_name)
 	os.makedirs(iter_folder_path, exist_ok=True)
 
-	hyperparameterfile = f"Without_prune_0p5_tanh_correct\\iteration_{i}\\output_NN_hypertuning\\hyperparameterfile"
-	modelweights = f"Without_prune_0p5_tanh_correct\\iteration_{i}\\output_NN_training\\dnn_modelweigths.h5"
-	datafile_csv = f"Without_prune_0p5_tanh_correct\\iteration_{i}\\dataset.csv"
+	hyperparameterfile = str(os.path.join("Without_prune_0p5_tanh_correct", f"iteration_{i}", "output_NN_hypertuning", "hyperparameterfile"))
+	# hyperparameterfile = f"Without_prune_0p5_tanh_correct\\iteration_{i}\\output_NN_hypertuning\\hyperparameterfile"
+
+	modelweights = str(os.path.join("Without_prune_0p5_tanh_correct", f"iteration_{i}", "output_NN_training", "dnn_modelweigths.h5"))
+	# modelweights = f"Without_prune_0p5_tanh_correct\\iteration_{i}\\output_NN_training\\dnn_modelweigths.h5"
+
+	datafile_csv = str(os.path.join("Without_prune_0p5_tanh_correct", f"iteration_{i}", "dataset.csv"))
+	# datafile_csv = f"Without_prune_0p5_tanh_correct\\iteration_{i}\\dataset.csv"
 	expert_trace_dataset_csv = "truck_trailer_multi_stage_loop_index_traces.csv"
 	start_point_dataset_csv = "truck_trailer_multi_stage_loop_index_start_points.csv"
 	simu = simulator_omega_init()

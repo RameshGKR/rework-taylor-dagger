@@ -50,7 +50,9 @@ def Train_NN_Policy(input_dataset, General_Train_NN_Policy_parameters, Train_NN_
         Hypertune_NN(hyper_model, use_case, train_dataset, General_Train_NN_Policy_parameters, Train_NN_Policy_parameters)
 
     if General_Train_NN_Policy_parameters.do_hypertuning:
-        hyper_parameters = get_hyperparameters_from_file(Train_NN_Policy_parameters.output_map + '\output_NN_hypertuning\\'+ General_Train_NN_Policy_parameters.hyperparameter_file)
+        hyper_param_path = str(os.path.join(Train_NN_Policy_parameters.output_map, "output_NN_hypertuning", General_Train_NN_Policy_parameters.hyperparameter_file))
+        hyper_parameters = get_hyperparameters_from_file(hyper_param_path)
+        # hyper_parameters = get_hyperparameters_from_file(Train_NN_Policy_parameters.output_map + '\output_NN_hypertuning\\'+ General_Train_NN_Policy_parameters.hyperparameter_file)
     else:
         hyper_parameters = get_hyperparameters_from_file(General_Train_NN_Policy_parameters.hyperparameter_file)
 
@@ -79,14 +81,18 @@ def split_model_training(dataset, General_Train_NN_Policy_parameters, Train_NN_P
     #train_dataset, test_dataset = dataset.split_dataset([0.8, 0.2])
     use_case = General_Train_NN_Policy_parameters.use_case
 
-    train_NN_policy_parameters_split = Train_NN_Policy_parameters(output_map=Train_NN_Policy_parameters_in.output_map + "\\model_" + str(number))
+    output_map_path = str(os.path.join(Train_NN_Policy_parameters_in.output_map, "model_" + str(number)))
+    train_NN_policy_parameters_split = Train_NN_Policy_parameters(output_map=output_map_path)
+    # train_NN_policy_parameters_split = Train_NN_Policy_parameters(output_map=Train_NN_Policy_parameters_in.output_map + "\\model_" + str(number))
 
     if General_Train_NN_Policy_parameters.do_hypertuning:
         hyper_model = use_case.give_hypermodel(train_dataset.input_dataframe)
         Hypertune_NN(hyper_model, use_case, train_dataset, General_Train_NN_Policy_parameters, train_NN_policy_parameters_split)
 
     if General_Train_NN_Policy_parameters.do_hypertuning:
-        hyper_parameters = get_hyperparameters_from_file(train_NN_policy_parameters_split.output_map+ '\output_NN_hypertuning\\'+ General_Train_NN_Policy_parameters.hyperparameter_file)
+        file_path = str(os.path.join(train_NN_policy_parameters_split.output_map, "output_NN_hypertuning", General_Train_NN_Policy_parameters.hyperparameter_file))
+        hyper_parameters = get_hyperparameters_from_file(file_path)
+        # hyper_parameters = get_hyperparameters_from_file(train_NN_policy_parameters_split.output_map+ '\output_NN_hypertuning\\'+ General_Train_NN_Policy_parameters.hyperparameter_file)
     else:
         hyper_parameters = get_hyperparameters_from_file(General_Train_NN_Policy_parameters.hyperparameter_file)
 

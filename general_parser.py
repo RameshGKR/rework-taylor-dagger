@@ -117,5 +117,9 @@ def put_counterexamples_in_dataset(extra_datapoints):
 
 
 if __name__ == "__main__":
-    retrain_for_cegar(False, False, "truck_trailer_multi_stage_loop_traces_index_v1_dataset.csv", "retrain_cegar_delete_later","DSL_truck_trailer_run_2\output_NN_hypertuning\hyperparameterfile")
+    hyper_param_path = str(os.path.join("DSL_truck_trailer_run_2", "output_NN_hypertuning", "hyperparameterfile"))
+    retrain_for_cegar(False, False,
+                      "truck_trailer_multi_stage_loop_traces_index_v1_dataset.csv",
+                      "retrain_cegar_delete_later",
+                      hyper_param_path)
   

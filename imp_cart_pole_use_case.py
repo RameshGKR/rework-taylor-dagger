@@ -248,25 +248,29 @@ def initialize_ocp(pos_init: float, theta_init: float, dpos_init: float, dtheta_
 def get_perfect_paths() -> List[Data_set]:
     """This function gives the perfect paths"""
 
-    with open("MPC_data\MPC_position_mpc_example.csv") as file_name:
+    with open(str(os.path.join("MPC_data", "MPC_position_mpc_example.csv"))) as file_name:
+    # with open("MPC_data\MPC_position_mpc_example.csv") as file_name:
         csvreader = csv.reader(file_name)
         MPC_pos = []
         for row in csvreader:
             MPC_pos.append([float(i) for i in row])
         
-    with open("MPC_data\MPC_theta_mpc_example.csv") as file_name:
+    with open(str(os.path.join("MPC_data", "MPC_theta_mpc_example.csv"))) as file_name:
+    # with open("MPC_data\MPC_theta_mpc_example.csv") as file_name:
         csvreader = csv.reader(file_name)
         MPC_theta = []
         for row in csvreader:
             MPC_theta.append([float(i) for i in row])
 
-    with open("MPC_data\MPC_dposition_mpc_example.csv") as file_name:
+    with open(str(os.path.join("MPC_data", "MPC_dposition_mpc_example.csv"))) as file_name:
+    # with open("MPC_data\MPC_dposition_mpc_example.csv") as file_name:
         csvreader = csv.reader(file_name)
         MPC_dpos = []
         for row in csvreader:
             MPC_dpos.append([float(i) for i in row])
-    
-    with open("MPC_data\MPC_dtheta_mpc_example.csv") as file_name:
+
+    with open(str(os.path.join("MPC_data", "MPC_dtheta_mpc_example.csv"))) as file_name:
+    # with open("MPC_data\MPC_dtheta_mpc_example.csv") as file_name:
         csvreader = csv.reader(file_name)
         MPC_dtheta = []
         for row in csvreader:

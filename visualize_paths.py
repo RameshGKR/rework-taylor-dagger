@@ -1,5 +1,6 @@
 import csv
 import matplotlib.pyplot as plt
+import os
 
 def extract_coordinates_from_csv(file_path):
     coordinates = []
@@ -22,7 +23,8 @@ def plot_coordinates(coordinates, color_choice, label_choice):
 if __name__ == "__main__":
     plt.figure()
 
-    file_path = "DSL_truck_trailer_multi_stage_model_run_tansig\iteration_1\dataset.csv"  
+    file_path = str(os.path.join("DSL_truck_trailer_multi_stage_model_run_tansig", "iteration_1", "dataset.csv"))
+    # file_path = "DSL_truck_trailer_multi_stage_model_run_tansig\iteration_1\dataset.csv"
     coordinates = extract_coordinates_from_csv(file_path)
     plot_coordinates(coordinates,'blue','generated paths')
 

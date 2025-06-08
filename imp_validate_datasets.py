@@ -19,7 +19,9 @@ def validate_datasets_function(expert_dataset, NN_dataset, General_Validation_pa
 
 def calculate_and_save_loss(expert_output_dataframe, NN_output_dataframe, output_map):
     mse_loss = np.mean(np.square(np.array(NN_output_dataframe)-np.array(expert_output_dataframe)))
-    outputfile= open(output_map + '\\' + 'test_loss.txt', "a")
+    outputpath = str(os.path.join(output_map, 'test_loss.txt'))
+    outputfile= open(outputpath, "a")
+    # outputfile= open(output_map + '\\' + 'test_loss.txt', "a")
     outputfile.write(f"The test loss is: {mse_loss}\n")
 
 def plot_and_save_figures(test_predictions: pd.DataFrame, test_labels: pd.DataFrame, map_name: str):
@@ -41,7 +43,9 @@ def plot_predict_vs_real(test_labels: pd.DataFrame, test_predictions: pd.DataFra
     plt.scatter(test_labels[output_label], test_predictions[output_label])
     plt.xlabel('True Values ' + output_label)
     plt.ylabel('Predictions ' + output_label)
-    plt.savefig(map_name + '\predict_vs_real_' + output_label )
+    output_path = str(os.path.join(map_name, 'predict_vs_real_' + output_label))
+    plt.savefig(output_path)
+    # plt.savefig(map_name + '\predict_vs_real_' + output_label )
     plt.clf()
 
 def plot_histogram(test_labels: List[float], test_predictions: List[float], output_label: str, map_name: str) -> List[float]:
@@ -51,14 +55,18 @@ def plot_histogram(test_labels: List[float], test_predictions: List[float], outp
     plt.hist(error_U, bins=25)
     plt.xlabel('Prediction Error ' + output_label)
     _ = plt.ylabel('Count')
-    plt.savefig(map_name + '\histogram_' + output_label )
+    output_path = str(os.path.join(map_name, 'histogram_' + output_label))
+    plt.savefig(output_path)
+    # plt.savefig(map_name + '\histogram_' + output_label )
     plt.clf()
 
     return [np.mean(error_U), np.median(error_U), np.std(error_U)]
 
 def save_error_metrics(error_results_list: List[float], folder: str):
     """This function saves the error metrics in a file"""
-    with open(folder+'\Error_results.csv', "a+") as output:
+    output_path = os.path.join(folder, 'Error_results.csv')
+    with open(output_path, "a+") as output:
+    # with open(folder+'\Error_results.csv', "a+") as output:
         writer = csv.writer(output, lineterminator='\n')
         for error_results in error_results_list:
             writer.writerow(error_results)

@@ -78,9 +78,11 @@ def get_NN_validate_results(hyperparameterfile, datafile, modelweights, output_m
     validate_datasets.validate_datasets(test_dataset, policy_results, validation_parameters)
     
 if __name__ == "__main__":
-    hyperparameterfile = "DSL_truck_trailer_delete_later\output_NN_hypertuning\hyperparameterfile"
+    hyperparameterfile = str(os.path.join("DSL_truck_trailer_delete_later", "output_NN_hypertuning", "hyperparameterfile"))
+    # hyperparameterfile = "DSL_truck_trailer_delete_later\output_NN_hypertuning\hyperparameterfile"
     datafile = "truck_trailer_multi_stage_correct_v1.csv"
-    modelweights = "DSL_truck_trailer_delete_later\output_NN_training\dnn_modelweigths.h5"
+    modelweights = str(os.path.join("DSL_truck_trailer_delete_later", "output_NN_training", "dnn_modelweigths.h5"))
+    # modelweights = "DSL_truck_trailer_delete_later\output_NN_training\dnn_modelweigths.h5"
 
     input = [1,2,3,4]  #fill here the datapoint you want get the output from
     input_datapoint = DSL_Data_Point(input={"x1":input[0], "y1":input[1], "theta0":input[2], "theta1":input[3]}) 

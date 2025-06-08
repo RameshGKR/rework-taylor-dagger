@@ -12,7 +12,8 @@ from imp_validate_trace_datasets import Validation_trace_parameters
 total_dataset = DSL_Data_Set()
 
 expert_trace_dataset = DSL_Trace_Data_Set()
-expert_trace_dataset.initialize_from_csv("Tutorial_data\short_trace_data_set_perfect_paths.csv")
+expert_trace_dataset.initialize_from_csv(str(os.path.join("Tutorial_data", "short_trace_data_set_perfect_paths.csv")))
+# expert_trace_dataset.initialize_from_csv("Tutorial_data\short_trace_data_set_perfect_paths.csv")
 
 # indexes = list(range(10,101))
 # trace_dataset = DSL_Trace_Data_Set()
