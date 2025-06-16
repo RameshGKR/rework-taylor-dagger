@@ -1,5 +1,6 @@
 import math
 import sys
+import os
 
 #EDIT 04 JUNE - START
 import tensorflow as tf
@@ -62,10 +63,11 @@ def run_DSL_operation():
 
     #EDIT 05 JUNE - START
     #Dagger(train_NN, simulate_system_traces, validate_datasets, validate_trace_datasets, expert_policy, 'truck_trailer_multi_stage_loop_index_dataset.csv', 'truck_trailer_multi_stage_loop_index_start_points.csv', 'truck_trailer_multi_stage_loop_index_traces.csv', 10, 49, 0, output_map)
-    if len(sys.argv) < 2:
-        raise ValueError("Please provide a seed as a command-line argument.")
+    if len(sys.argv) < 3:
+        raise ValueError("Please provide both SEED and ITERATION as command-line arguments.")
     seed = int(sys.argv[1])
-    print(f"\n=== Running DAgger with seed {seed} ===\n")
+    iteration = int(sys.argv[2])  # iteration ∈ {1, 2, ..., N}
+    #print(f"\n=== Running DAgger with seed {seed} ===\n")
     tf.random.set_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
@@ -73,15 +75,32 @@ def run_DSL_operation():
     # Make output folder unique per seed
     output_map_seed = output_map + f"_seed{seed}"
 
+    if iteration == 1:
+        start_dataset_csv = 'truck_trailer_multi_stage_loop_index_dataset.csv'
+        start_point_dataset_csv = 'truck_trailer_multi_stage_loop_index_start_points.csv'
+        expert_trace_dataset_csv = 'truck_trailer_multi_stage_loop_index_traces.csv'
+
+    else:
+        prev_iter = iteration - 1
+        base_path = os.path.join(output_map_seed, f"iteration_{prev_iter}")
+        start_dataset_csv = os.path.join(base_path, "dataset.csv")
+        start_point_dataset_csv = 'truck_trailer_multi_stage_loop_index_start_points.csv'
+        expert_trace_dataset_csv = 'truck_trailer_multi_stage_loop_index_traces.csv' 
+
+    #if not os.path.exists(start_dataset_csv):
+        #raise FileNotFoundError(f"Missing dataset: {start_dataset_csv}")
+    print(f"Using dataset from: {start_dataset_csv}")
+    print(f"Output will be saved to: {output_map_seed + f'/iteration_{iteration}'}")
+
     Dagger(train_NN,
        simulate_system_traces,
        validate_datasets,
        validate_trace_datasets,
        expert_policy,
-       'truck_trailer_multi_stage_loop_index_dataset.csv',
-       'truck_trailer_multi_stage_loop_index_start_points.csv',
-       'truck_trailer_multi_stage_loop_index_traces.csv',
-       10, 49, 0, output_map_seed)
+       start_dataset_csv,
+       start_point_dataset_csv,
+       expert_trace_dataset_csv,
+       1, 49, 0, output_map_seed, iteration)
     #EDIT 05 JUNE - END
     #NDI(train_NN, simulate_system, validate_datasets, validate_trace_datasets, expert_policy, 'MPC_data\data_set_mpc_example_DSL', 'MPC_data\data_set_mpc_example_start_points_DSL', 'MPC_data\data_set_mpc_example_perfect_paths', 20, 3, 100, 0.1, output_map)
     #CL(train_NN, retrain_NN, 'MPC_data\data_set_mpc_example_DSL', output_map)
