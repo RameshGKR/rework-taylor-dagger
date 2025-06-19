@@ -90,7 +90,8 @@ def run_DSL_operation():
     #if not os.path.exists(start_dataset_csv):
         #raise FileNotFoundError(f"Missing dataset: {start_dataset_csv}")
     print(f"Using dataset from: {start_dataset_csv}")
-    print(f"Output will be saved to: {output_map_seed + f'/iteration_{iteration}'}")
+    output_folder = os.path.join(output_map_seed, f'iteration_{iteration}')
+    print(f"Output will be saved to: '{str(output_folder)}'")
 
     Dagger(train_NN,
        simulate_system_traces,
