@@ -49,6 +49,8 @@ def Dagger(train_NN, simulate_system_traces, validate_datasets, validate_trace_d
         validation_trace_parameters = Validation_trace_parameters(output_map=os.path.abspath(iteration_output_map))
 
         [train_dataset, test_dataset] = total_dataset.split_dataset([0.8, 0.2])
+        train_dataset.write_dataset_to_csv(os.path.join(iteration_output_map, "train_dataset.csv"))
+
         trained_policy = train_NN.train_policy(train_dataset, train_NN_policy_parameters)
 
         policy_results = DSL_Data_Set()
