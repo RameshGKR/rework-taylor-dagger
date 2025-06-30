@@ -1,0 +1,11 @@
+Int(name: 'units', min_value: 16, max_value: 96, step: 16, sampling: linear, default: 16)
+Choice(name: 'activation_function', values: ['relu'], ordered: False, default: relu)
+Int(name: 'hidden_layers', min_value: 1, max_value: 3, step: 1, sampling: linear, default: 1)
+Float(name: 'learning_rate', min_value: '1e-05', max_value: '0.1', step: 'None', sampling: 'log', default: '1e-05')
+The amount epochs are: 50
+The training factor is: 3
+The best found results are
+units: 96
+activation_function: relu
+learning_rate: 0.003190130246628768
+hidden_layers: 3
