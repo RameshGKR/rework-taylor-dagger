@@ -1,11 +1,11 @@
-"""offshelf_expert_call.py (CLI version)
+"""get_expert_action.py (CLI version)
 
-Compute expert (MPC) actions for each row of a pre‑processed reachability CSV.
+Compute expert (MPC) actions for each row of a pre-processed CSV from JuliaReach.
 
 Usage
 -----
-    python offshelf_expert_call.py  input.csv           # writes input_expert_filled.csv
-    python offshelf_expert_call.py  input.csv  output.csv
+    python get_expert_action.py  input.csv           # writes input_expert_filled.csv
+    python get_expert_action.py  input.csv  output.csv
 
 The script expects the CSV to contain at least:
     input_index, input_x1, input_y1, input_theta0, input_theta1
@@ -23,7 +23,7 @@ def main() -> None:
     if len(sys.argv) not in (2, 3):
         sys.exit(
             """Usage:
-    python offshelf_expert_call.py  input.csv [output.csv]
+    python get_expert_action.py  input.csv [output.csv]
 
 If output.csv is omitted the result is written to
 <basename>_expert_filled.csv in the same directory."""
